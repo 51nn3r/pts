@@ -29,6 +29,9 @@ class Tile:
     def __str__(self) -> str:
         return self._representation
 
+    def __eq__(self, other):
+        return self.__str__() == str(other)
+
 
 STARTING_PLAYER: Tile = Tile("S")
 RED: Tile = Tile("R")
@@ -36,6 +39,22 @@ BLUE: Tile = Tile("B")
 YELLOW: Tile = Tile("Y")
 GREEN: Tile = Tile("G")
 BLACK: Tile = Tile("L")
+
+TILE_TYPES: List = [RED, BLUE, YELLOW, GREEN, BLACK]
+
+
+class FinishRoundResult:
+    _result: str
+
+    def __init__(self, result: str):
+        self._result = result
+
+    def __str__(self):
+        return self._result
+
+
+NORMAL: FinishRoundResult = FinishRoundResult("N")
+GAME_FINISHED: FinishRoundResult = FinishRoundResult("F")
 
 
 def compress_tile_list(tiles: List[Tile]) -> str:
