@@ -30,3 +30,5 @@ class FinalPointsCalculation:
         for i in _color_count:
             if i > 10:
                 points = points = Points.sum([points, Points(10)])
+
+        return points
