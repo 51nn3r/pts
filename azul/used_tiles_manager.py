@@ -10,7 +10,7 @@ class UsedTilesManager(UsedTilesGiveInterface):
 
     def give(self, tiles: List[Tile]) -> None:
         super().give(tiles)
-        self._used_tiles.extend(tiles.copy())
+        self._used_tiles.extend(tiles)
 
     def take_all(self) -> List[Tile]:
         used_tales = self._used_tiles.copy()

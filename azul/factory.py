@@ -5,9 +5,10 @@ from azul.bag import Bag
 from azul.table_center import TableCenter
 from azul.simple_types import Tile
 
+from azul.settings import TILES_IN_FACTORY
+
 
 class Factory(TileSource):
-    _tiles: List[Tile]
     _bag: Bag
     _table_center: TableCenter
 
@@ -28,3 +29,6 @@ class Factory(TileSource):
         self._tiles.clear()
 
         return tiles
+
+    def start_new_round(self) -> None:
+        self._tiles.extend(self._bag.take(TILES_IN_FACTORY))
