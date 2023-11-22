@@ -17,3 +17,17 @@ class GameInterface:
             dst: int,
     ) -> bool:
         pass
+
+
+class ObserverInterface:
+    def register_observer(
+            self,
+            observer: ObserverInterface,
+    ) -> None:
+        pass
+
+    def cancel_observer(
+            self,
+            observer: ObserverInterface,
+    ) -> None:
+        pass

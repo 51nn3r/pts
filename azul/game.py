@@ -9,6 +9,7 @@ from azul.used_tiles_manager import UsedTilesManager
 from azul.bag import Bag
 from azul.table_area import TableArea
 from azul.board import Board
+from azul.GameObserver import GameObserver
 
 
 class Game(GameInterface):
@@ -17,6 +18,7 @@ class Game(GameInterface):
     _bag: Bag
     _table_area: TableArea
     _boards: List[Board]
+    _observer: GameObserver
 
     def __init__(self, players_count: int):
         self._players_count = players_count
@@ -29,6 +31,8 @@ class Game(GameInterface):
         self._boards: List[Board] = []
         for _ in range(players_count):
             self._boards.append(Board(self._used_tiles_manager))
+
+        self._observer = GameObserver()
 
     def game_loop(self):
         while self.round() is NORMAL:

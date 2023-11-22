@@ -31,5 +31,7 @@ WALL_LINE = [
     ],
 ]
 
+TILES_IN_WALL = len(WALL_LINE[-1])
+
 _points_pattern = [1, 1, 2, 2, 2, 3, 3]
 points_pattern = [Points(i) for i in _points_pattern]
