@@ -9,7 +9,7 @@ from azul.used_tiles_manager import UsedTilesManager
 from azul.bag import Bag
 from azul.table_area import TableArea
 from azul.board import Board
-from azul.GameObserver import GameObserver
+from azul.game_observer import GameObserver
 
 
 class Game(GameInterface):

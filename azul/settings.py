@@ -1,5 +1,5 @@
-from simple_types import Tile
-from simple_types import Points
+from azul.simple_types import Tile
+from azul.simple_types import Points
 
 TILES_COUNT = 10
 TILES_IN_FACTORY = 4
