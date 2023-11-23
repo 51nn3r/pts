@@ -29,9 +29,6 @@ class Tile:
     def __str__(self) -> str:
         return self._representation
 
-    def __repr__(self) -> str:
-        return self._representation
-
     def __eq__(self, other):
         return self.__str__() == str(other)
 

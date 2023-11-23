@@ -8,9 +8,6 @@ from azul.simple_types import compress_tile_list
 class UsedTilesManager(UsedTilesGiveInterface):
     _used_tiles: List[Tile]
 
-    def __init__(self):
-        self._used_tiles: List[Tile] = []
-
     def give(self, tiles: List[Tile]) -> None:
         super().give(tiles)
         self._used_tiles.extend(tiles)
