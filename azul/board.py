@@ -48,16 +48,20 @@ class Board:
             self,
             dst_idx: int,
             tiles: List[Tile],
-    ):
+    ) -> bool:
         if dst_idx >= len(self._pattern_lines):
             raise "invalid dst index"
 
+        starting_next = False
         _tiles = tiles.copy()
         if STARTING_PLAYER in _tiles:
             _tiles.remove(STARTING_PLAYER)
             self._floor.put([STARTING_PLAYER])
+            starting_next = True
 
         self._pattern_lines[dst_idx].put(_tiles)
+
+        return starting_next
 
     def finish_round(self) -> FinishRoundResult:
         finished = False

@@ -13,6 +13,7 @@ from azul.game_observer import GameObserver
 
 
 class Game(GameInterface):
+    _starting_player: int
     _players_count: int
     _used_tiles_manager: UsedTilesManager
     _bag: Bag
@@ -21,6 +22,7 @@ class Game(GameInterface):
     _observer: GameObserver
 
     def __init__(self, players_count: int):
+        self._starting_player = 0
         self._players_count = players_count
         self._used_tiles_manager = UsedTilesManager()
         self._bag = Bag(self._used_tiles_manager)
@@ -42,18 +44,20 @@ class Game(GameInterface):
                 self._table_area.start_new_round()
 
     def round(self) -> FinishRoundResult:
-        for player_idx in range(self._players_count):
+        for _player_idx in range(self._players_count):
+            player_idx = (_player_idx + self._starting_player) % self._players_count
             print(f'[*] {player_idx} player\'s turn')
             source_id = self.read_source_id()
             tile_idx = self.read_tile_index()
             dst = self.read_dst()
 
-            self.turn(
-                player_idx=player_idx,
-                source_id=source_id,
-                tile_idx=tile_idx,
-                dst=dst,
-            )
+            if self.turn(
+                    player_idx=player_idx,
+                    source_id=source_id,
+                    tile_idx=tile_idx,
+                    dst=dst,
+            ):
+                self._starting_player = player_idx
 
         return self.finish_round()
 
@@ -63,9 +67,9 @@ class Game(GameInterface):
             source_id: int,
             tile_idx: int,
             dst: int,
-    ):
+    ) -> bool:
         tiles: List[Tile] = self._table_area.take(source_id, tile_idx)
-        self._boards[player_idx].put(dst, tiles)
+        return self._boards[player_idx].put(dst, tiles)
 
     def start_round(self):
         self._table_area.start_new_round()
