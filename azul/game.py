@@ -35,15 +35,18 @@ class Game(GameInterface):
         self._observer = GameObserver()
 
     def game_loop(self):
+        self._table_area.start_new_round()
+
         while self.round() is NORMAL:
-            pass
+            if self._table_area.is_round_end():
+                self._table_area.start_new_round()
 
     def round(self) -> FinishRoundResult:
         for player_idx in range(self._players_count):
             print(f'[*] {player_idx} player\'s turn')
-            source_id = int(input('[>] input source id: '))
-            tile_idx = int(input('[>] input tile index: '))
-            dst = int(input('[>] input destination: '))
+            source_id = self.read_source_id()
+            tile_idx = self.read_tile_index()
+            dst = self.read_dst()
 
             self.turn(
                 player_idx=player_idx,
@@ -64,6 +67,9 @@ class Game(GameInterface):
         tiles: List[Tile] = self._table_area.take(source_id, tile_idx)
         self._boards[player_idx].put(dst, tiles)
 
+    def start_round(self):
+        self._table_area.start_new_round()
+
     def finish_round(self) -> FinishRoundResult:
         finished = False
 
@@ -76,3 +82,15 @@ class Game(GameInterface):
             return GAME_FINISHED
 
         return NORMAL
+
+    def read_source_id(self) -> int:
+        """ method to overwrite """
+        pass
+
+    def read_tile_index(self) -> int:
+        """ method to overwrite """
+        pass
+
+    def read_dst(self) -> int:
+        """ method to overwrite """
+        pass

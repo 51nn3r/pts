@@ -5,6 +5,7 @@ from azul.simple_types import Tile
 from azul.simple_types import FinishRoundResult
 from azul.simple_types import NORMAL
 from azul.simple_types import GAME_FINISHED
+from azul.simple_types import STARTING_PLAYER
 from azul.pattern_line import PatternLine
 from azul.wall_line import WallLine
 from azul.used_tiles_manager import UsedTilesManager
@@ -26,6 +27,9 @@ class Board:
             self,
             used_tiles_manager: UsedTilesManager()
     ):
+        self._points = Points(0)
+        self._pattern_lines: List[PatternLine] = []
+        self._wall_lines: List[WallLine] = []
         self._used_tiles_manager = used_tiles_manager
         self._floor = Floor(points_pattern.copy(), used_tiles_manager)
 
@@ -48,16 +52,28 @@ class Board:
         if dst_idx >= len(self._pattern_lines):
             raise "invalid dst index"
 
-        self._pattern_lines[dst_idx].put(tiles)
+        _tiles = tiles.copy()
+        if STARTING_PLAYER in _tiles:
+            _tiles.remove(STARTING_PLAYER)
+            self._floor.put([STARTING_PLAYER])
+
+        self._pattern_lines[dst_idx].put(_tiles)
 
     def finish_round(self) -> FinishRoundResult:
         finished = False
+        points: Points = Points(0)
         for pattern_line in self._pattern_lines:
-            self._points = Points.sum(points_list=[
-                self._points,
+            points = Points.sum(points_list=[
+                points,
                 pattern_line.finish_round(),
             ])
             finished = finished or pattern_line.finished
+
+        floor_points = self._floor.finish_round().reverse
+
+        points = points.sum([points, floor_points])
+        if points.value > 0:
+            self._points = self._points.sum([self._points, points])
 
         if finished:
             return GAME_FINISHED

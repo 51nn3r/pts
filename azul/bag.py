@@ -19,7 +19,7 @@ class Bag:
     ):
         self._used_tiles_manager = used_tiles_manager
 
-        self._tiles = [tt for tt in TILE_TYPES] * TILES_COUNT
+        self._tiles = [tt for tt in TILE_TYPES] * TYPED_TILES_COUNT
         shuffle(self._tiles)
 
     def take(self, count: int) -> List[Tile]:

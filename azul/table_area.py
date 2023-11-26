@@ -6,7 +6,7 @@ from azul.tile_source import TileSource
 from azul.table_center import TableCenter
 from azul.factory import Factory
 
-from settings import PLAYERS_TO_FACTORIES
+from azul.settings import PLAYERS_TO_FACTORIES
 
 
 class TableArea:

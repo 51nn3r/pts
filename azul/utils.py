@@ -1,16 +1,19 @@
 from typing import List
 
-from wall_line import WallLine
+from azul.wall_line import WallLine
+from azul.settings import WALL_LINES_COUNT
+from azul.settings import WALL_LINE
 
-from settings import WALL_LINES_COUNT
-from settings import WALL_LINE
 
-
-def define_board_wall_lines() -> List[WALL_LINE]:
-    board = []
+def define_board_wall_lines() -> List[WallLine]:
+    board: List[WallLine] = []
 
     for i in range(WALL_LINES_COUNT):
         board.append(WallLine(apply_wall_line_offset(i)))
+
+    for i in range(WALL_LINES_COUNT - 1):
+        board[i]._down = board[i + 1]
+        board[i + 1]._up = board[i]
 
     return board
 

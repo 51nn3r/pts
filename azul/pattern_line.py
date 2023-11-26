@@ -25,12 +25,14 @@ class PatternLine:
         self._wall_line = wall_line
         self._floor = floor
         self._used_tiles = used_tiles
+        self._tiles: List[Tile] = []
 
     def put(
             self,
             tiles: List[Tile]
     ):
-        if not self._wall_line.can_put_tile(tiles[-1]):
+
+        if not tiles or not self._wall_line.can_put_tile(tiles[-1]):
             self._floor.put(tiles.copy())
             return
 
@@ -47,6 +49,7 @@ class PatternLine:
 
         points: Points = self._wall_line.put_tile(self._tiles[-1])
         self._used_tiles.give(self._tiles[:-1].copy())
+        self._tiles.clear()
 
         return points
 

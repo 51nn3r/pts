@@ -2,7 +2,7 @@ from typing import List
 
 from azul.simple_types import Tile
 
-from settings import TILES_INDEXES
+from azul.settings import TILES_INDEXES
 
 
 class TileSource:
@@ -12,7 +12,7 @@ class TileSource:
         self._tiles: List[Tile] = []
 
     def take(self, idx: int) -> List[Tile]:
-        if idx not in TILES_INDEXES:
+        if idx not in TILES_INDEXES or idx == 0:
             raise "invalid tile index"
 
         tile_representation = TILES_INDEXES[idx]

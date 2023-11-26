@@ -47,66 +47,62 @@ class WallLine:
         tile_index = self._tile_types.index(tile)
         self._tiles[tile_index] = tile
 
-        same_tiles_count = self.count_up(tile_index, tile) + \
-                           self.count_down(tile_index, tile) + \
-                           self.count_left(tile_index, tile) + \
-                           self.count_right(tile_index, tile)
+        same_tiles_count = self.count_up(tile_index) + \
+                           self.count_down(tile_index) + \
+                           self.count_left(tile_index) + \
+                           self.count_right(tile_index) - 4
 
         return Points(same_tiles_count + 1)
 
     def count_up(
             self,
             index: int,
-            templ_tile: Tile
     ) -> int:
         tile = self._tiles[index]
-        if tile is None or tile != templ_tile:
+        if tile is None:
             return 0
 
         if self._up is not None:
-            return self._up.count_up(index, tile) + 1
+            return self._up.count_up(index) + 1
 
         return 1
 
     def count_down(
             self,
             index: int,
-            templ_tile: Tile
     ) -> int:
         tile = self._tiles[index]
-        if tile is None or tile != templ_tile:
+        if tile is None:
             return 0
 
         if self._down is not None:
-            return self._down.count_down(index, tile) + 1
+            return self._down.count_down(index) + 1
 
         return 1
 
     def count_left(
             self,
             index: int,
-            templ_tile: Tile
     ) -> int:
         tile = self._tiles[index]
-        if tile is None or tile != templ_tile:
+        if tile is None:
             return 0
 
         if index > 0:
-            return self.count_left(index - 1, tile)
+            return self.count_left(index - 1) + 1
 
         return 1
 
     def count_right(
             self,
             index: int,
-            templ_tile: Tile
     ) -> int:
         tile = self._tiles[index]
-        if tile is None or tile != templ_tile:
+        if tile is None:
             return 0
 
         if index < TILES_IN_WALL - 1:
-            return self.count_right(index + 1, tile)
+            return self.count_right(index + 1) + 1
 
         return 1
 

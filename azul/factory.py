@@ -1,6 +1,6 @@
 from typing import List
 
-from tile_source import TileSource
+from azul.tile_source import TileSource
 from azul.bag import Bag
 from azul.table_center import TableCenter
 from azul.simple_types import Tile

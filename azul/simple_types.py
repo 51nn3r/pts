@@ -9,6 +9,10 @@ class Points:
         self._value = value
 
     @property
+    def reverse(self) -> Points:
+        return Points(-self._value)
+
+    @property
     def value(self) -> int:
         return self._value
 
