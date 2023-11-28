@@ -47,12 +47,16 @@ class WallLine:
         tile_index = self._tile_types.index(tile)
         self._tiles[tile_index] = tile
 
-        same_tiles_count = self.count_up(tile_index) + \
-                           self.count_down(tile_index) + \
-                           self.count_left(tile_index) + \
-                           self.count_right(tile_index) - 4
+        same_tiles_count_vertical = self.count_up(tile_index) + \
+                                    self.count_down(tile_index) - 1
+        same_tiles_count_horizontal = self.count_left(tile_index) + \
+                                      self.count_right(tile_index) - 1
 
-        return Points(same_tiles_count + 1)
+        same_tiles_count = same_tiles_count_vertical + same_tiles_count_horizontal
+        if same_tiles_count_vertical == 1 or same_tiles_count_horizontal == 1:
+            same_tiles_count -= 1
+
+        return Points(same_tiles_count)
 
     def count_up(
             self,
