@@ -5,7 +5,7 @@ from azul.simple_types import Tile, TILE_TYPES
 from azul.final_points_calculation import FinalPointsCalculation
 
 
-class TestGameFinished(unittest.TestCase):
+class TestFinalPointsCalculation(unittest.TestCase):
     def setUp(self) -> None:
         self.wall: List[List[Optional[Tile]]] = []
         for _ in range(WALL_LINES_COUNT):
