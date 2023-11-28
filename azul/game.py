@@ -30,11 +30,12 @@ class Game(GameInterface):
             players_count=players_count,
             bag=self._bag,
         )
+
         self._boards: List[Board] = []
+        self._observer = GameObserver()
         for _ in range(players_count):
             self._boards.append(Board(self._used_tiles_manager))
-
-        self._observer = GameObserver()
+            self._observer.register_observer(GameObserver())
 
     def game_loop(self):
         self._table_area.start_new_round()
@@ -43,10 +44,15 @@ class Game(GameInterface):
             if self._table_area.is_round_end():
                 self._table_area.start_new_round()
 
+        for board in self._boards:
+            board.compute_points_finally()
+
     def round(self) -> FinishRoundResult:
+        next_starting_player = None
+
         for _player_idx in range(self._players_count):
             player_idx = (_player_idx + self._starting_player) % self._players_count
-            print(f'[*] {player_idx} player\'s turn')
+            self._observer.notify(f'[*] {player_idx} player\'s turn')
             source_id = self.read_source_id()
             tile_idx = self.read_tile_index()
             dst = self.read_dst()
@@ -57,7 +63,10 @@ class Game(GameInterface):
                     tile_idx=tile_idx,
                     dst=dst,
             ):
-                self._starting_player = player_idx
+                next_starting_player = player_idx
+
+        if next_starting_player is not None:
+            self._starting_player = next_starting_player
 
         return self.finish_round()
 

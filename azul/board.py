@@ -10,6 +10,7 @@ from azul.pattern_line import PatternLine
 from azul.wall_line import WallLine
 from azul.used_tiles_manager import UsedTilesManager
 from azul.floor import Floor
+from azul.final_points_calculation import FinalPointsCalculation
 from azul.utils import define_board_wall_lines
 
 from azul.settings import points_pattern
@@ -83,6 +84,19 @@ class Board:
             return GAME_FINISHED
 
         return NORMAL
+
+    def compute_points_finally(self) -> Points:
+        final_points_calculation = FinalPointsCalculation()
+        self._points = self._points.sum([
+            self._points,
+            final_points_calculation.getPoints(self.as_matrix)
+        ])
+
+        return self._points
+
+    @property
+    def as_matrix(self):
+        return [wall_line.tiles for wall_line in self._wall_lines]
 
     def state(self) -> str:
         return self.__str__()

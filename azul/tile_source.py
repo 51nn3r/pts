@@ -18,9 +18,9 @@ class TileSource:
         tile_representation = TILES_INDEXES[idx]
         tiles = []
 
-        while Tile(tile_representation) in self._tiles:
-            self._tiles.remove(Tile(tile_representation))
-            tiles.append(Tile(tile_representation))
+        while tile_representation in self._tiles:
+            self._tiles.remove(tile_representation)
+            tiles.append(tile_representation)
 
         return tiles
 

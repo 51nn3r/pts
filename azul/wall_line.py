@@ -107,6 +107,10 @@ class WallLine:
         return 1
 
     @property
+    def tiles(self):
+        return self._tiles
+
+    @property
     def is_fool(self) -> bool:
         return None not in self._tiles
 

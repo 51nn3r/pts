@@ -39,6 +39,9 @@ class Tile:
     def __eq__(self, other):
         return self.__str__() == str(other)
 
+    def __hash__(self):
+        return hash(self.__str__())
+
 
 STARTING_PLAYER: Tile = Tile("S")
 RED: Tile = Tile("R")
@@ -57,6 +60,9 @@ class FinishRoundResult:
         self._result = result
 
     def __str__(self):
+        return self._result
+
+    def __repr__(self):
         return self._result
 
 
