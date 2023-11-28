@@ -17,7 +17,7 @@ class TestFinalPointsCalculation(unittest.TestCase):
         for i in range(TILES_IN_WALL):
             self.fullrow.append(TILE_TYPES[i])
         
-    def test_game_finished(self) -> None:
+    def test_final_points_calculation(self) -> None:
 
         self.assertEqual(FinalPointsCalculation().getPoints(self.wall).value, 0)
         self.wall[0] = self.fullrow

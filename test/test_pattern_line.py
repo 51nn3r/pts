@@ -26,7 +26,7 @@ class TestPatternLine(unittest.TestCase):
             wallLine._up = wallLines[i]
 
 
-    def test_game_finished(self) -> None:
+    def test_pattern_line(self) -> None:
         self.patternLines[0].put([Tile("R")])
         self.assertEqual(self.patternLines[0].finish_round().value, 1)
 

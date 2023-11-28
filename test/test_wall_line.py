@@ -4,7 +4,7 @@ from azul.simple_types import Tile
 from azul.wall_line import WallLine
 
 
-class TestGameFinished(unittest.TestCase):
+class TestWallLine(unittest.TestCase):
     def setUp(self) -> None:
 
         self.wallLines = []
@@ -21,7 +21,7 @@ class TestGameFinished(unittest.TestCase):
             print(self.wallLines[i]._tile_types)
 
 
-    def test_game_finished(self) -> None:
+    def test_wall_line(self) -> None:
         self.assertEqual(self.wallLines[0].can_put_tile(Tile("R")), True)
         self.assertEqual(self.wallLines[0].put_tile(Tile("R")).value, 1)
         self.assertEqual(self.wallLines[0].can_put_tile(Tile("R")), False)
