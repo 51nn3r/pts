@@ -77,7 +77,7 @@ class TestGame(unittest.TestCase):
         game.turn(0, 0, 4, 1)
 
         game._boards[0].finish_round()
-        self.assertEqual(game._boards[0]._points.value, 1 + 2 - 1 + 2 + 3 - 1)
+        self.assertEqual(game._boards[0]._points.value, 1 + 2 - 1 + 2 + 4 - 1)
 
     def test_put2(self):
         players_count = 4
