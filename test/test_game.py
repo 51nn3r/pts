@@ -1,12 +1,10 @@
 import unittest
 
 from azul.game import Game
-from azul.used_tiles_manager import UsedTilesManager
-from azul.bag import Bag
+from azul.simple_types import NORMAL
+from azul.simple_types import GAME_FINISHED
 
-from azul.settings import TILES_IN_FACTORY
 from azul.settings import TILES_INDEXES
-from azul.settings import TILES_INDEXES_REVERSED
 
 
 class SimpleGame(Game):
@@ -36,9 +34,9 @@ class SimpleGame(Game):
         return self.destinations.pop(-1)
 
     def add_move(self, source_id, tile_index, dst):
-        self.source_ids.append(source_id)
-        self.tiles_indices.append(tile_index)
-        self.destinations.append(dst)
+        self.source_ids.insert(0, source_id)
+        self.tiles_indices.insert(0, tile_index)
+        self.destinations.insert(0, dst)
 
 
 class TestGame(unittest.TestCase):
@@ -122,3 +120,32 @@ class TestGame(unittest.TestCase):
         game.turn(0, 0, 1, 1)
         game._boards[0].finish_round()
         self.assertEqual(game._boards[0]._points.value, 1 + 1 + 2 - 1 - 1)
+
+    def test_end_game(self):
+        players_count = 4
+        game = SimpleGame(players_count)
+        game._table_area.start_new_round()
+
+        results = []
+        for tile_index in range(1, len(TILES_INDEXES)):
+            for player_index in range(1, 5):
+                if player_index == 1:
+                    game.add_move(1, tile_index, 0)
+                else:
+                    game.add_move(0, tile_index, 0)
+
+            game._table_area._sources[1]._tiles = [
+                TILES_INDEXES[tile_index],
+                TILES_INDEXES[(tile_index + 1) % len(TILES_INDEXES)],
+                TILES_INDEXES[(tile_index + 2) % len(TILES_INDEXES)],
+                TILES_INDEXES[(tile_index + 3) % len(TILES_INDEXES)],
+            ]
+            results.append(game.round())
+            game._starting_player = 0
+
+        self.assertEqual(results, [NORMAL] * 4 + [GAME_FINISHED])
+
+        for board in game._boards:
+            board.compute_points_finally()
+
+        self.assertEqual(game._boards[0]._points.value, 1 + 1 + 3 + 1 + 5 + 2)
