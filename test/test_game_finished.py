@@ -1,24 +1,24 @@
 import unittest
 from typing import List, Optional
-from azul.simple_types import Tile
+from azul.simple_types import Tile, TILE_TYPES
 from azul.game_finished import GameFinished
-
+from azul.settings import TILES_IN_WALL, WALL_LINES_COUNT
 
 class TestGameFinished(unittest.TestCase):
     def setUp(self) -> None:
         self.wall: List[List[Optional[Tile]]] = []
-        for _ in range(5):
+        for _ in range(WALL_LINES_COUNT):
             row: List[Optional[Tile]] = []
-            for _ in range(5):
+            for _ in range(TILES_IN_WALL):
                 row.append(None)
             self.wall.append(row)
         self.fullrow : List[Optional[Tile]] = []
-        for _ in range(5):
-            self.fullrow.append(Tile("B"))
+        for i in range(TILES_IN_WALL):
+            self.fullrow.append(TILE_TYPES[i])
         self.partrow: List[Optional[Tile]] = []
-        for i in range(5):
+        for i in range(TILES_IN_WALL):
             if i <= 2:
-                self.partrow.append(Tile("B"))
+                self.partrow.append(TILE_TYPES[i])
             else:
                 self.partrow.append(None)
         

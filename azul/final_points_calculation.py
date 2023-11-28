@@ -1,34 +1,35 @@
 from typing import List, Optional
-
 from azul.simple_types import Tile, Points, TILE_TYPES
-
+from azul.settings import TILES_IN_WALL, WALL_LINES_COUNT
 
 class FinalPointsCalculation:
     def getPoints(self, wall: List[List[Optional[Tile]]]) -> Points:
-        _color_count: List[int] = []
+        _color_count: List[int] = [0 for _ in range(TILES_IN_WALL)]
+
         points: Points = Points(0)
+        
         for wallline in wall:
             t = True
             for tile in wallline:
-                _color_count[TILE_TYPES.index(tile)] += 1
                 if tile is None:
                     t = False
-                    break
+                else:    
+                    _color_count[TILE_TYPES.index(tile)] += 1
             if t:
-                points = Points.sum([points, Points(2)])
-
-        for i in range(0, len(wall[0])):
+                points =  Points.sum([points, Points(2)])
+                
+        for i in range(TILES_IN_WALL):
             t = True
-            for j in range(0, len(wall)):
+            for j in range(WALL_LINES_COUNT):
                 if wall[j][i] is None:
                     t = False
                     break
 
             if t:
-                points = points = Points.sum([points, Points(7)])
+                points = Points.sum([points, Points(7)])
 
         for i in _color_count:
-            if i > 10:
-                points = points = Points.sum([points, Points(10)])
+            if i == TILES_IN_WALL:
+                points = Points.sum([points, Points(10)])
 
         return points
