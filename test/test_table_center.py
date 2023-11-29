@@ -45,3 +45,7 @@ class TestTableCenter(unittest.TestCase):
 
         self.assertIn(STARTING_PLAYER, table_tiles)
         self.assertEqual(len(table_tiles) + len(factory_tiles), TILES_IN_FACTORY + 1)
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -149,3 +149,7 @@ class TestGame(unittest.TestCase):
             board.compute_points_finally()
 
         self.assertEqual(game._boards[0]._points.value, 1 + 1 + 3 + 1 + 5 + 2)
+
+
+if __name__ == '__main__':
+    unittest.main()

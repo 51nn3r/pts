@@ -28,3 +28,7 @@ class TestTableArea(unittest.TestCase):
         self.assertEqual(len(tiles), tiles_count)
         self.assertGreater(len(table_area._sources[0]._tiles), 0)
         self.assertEqual(len(table_area._sources[0]._tiles) + len(tiles), TILES_IN_FACTORY + 1)
+
+
+if __name__ == '__main__':
+    unittest.main()
