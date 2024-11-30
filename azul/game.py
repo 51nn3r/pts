@@ -1,15 +1,15 @@
 from typing import List
 
-from azul.simple_types import Tile
 from azul.simple_types import FinishRoundResult
 from azul.simple_types import NORMAL
 from azul.simple_types import GAME_FINISHED
 from azul.interfaces import GameInterface
+from azul.table_state import TableState
 from azul.used_tiles_manager import UsedTilesManager
 from azul.bag import Bag
-from azul.table_area import TableArea
 from azul.board import Board
 from azul.game_observer import GameObserver
+from azul.randomizer import Randomizer
 
 
 class Game(GameInterface):
@@ -17,18 +17,17 @@ class Game(GameInterface):
     _players_count: int
     _used_tiles_manager: UsedTilesManager
     _bag: Bag
-    _table_area: TableArea
+    _table_state: TableState
     _boards: List[Board]
     _observer: GameObserver
 
     def __init__(self, players_count: int):
         self._starting_player = 0
         self._players_count = players_count
-        self._used_tiles_manager = UsedTilesManager()
-        self._bag = Bag(self._used_tiles_manager)
-        self._table_area = TableArea(
+        self._used_tiles_manager = UsedTilesManager.get_start_instance()
+        self._table_state = TableState.get_start_instance(
             players_count=players_count,
-            bag=self._bag,
+            randomizer=Randomizer(),
         )
 
         self._boards: List[Board] = []
@@ -38,11 +37,11 @@ class Game(GameInterface):
             self._observer.register_observer(GameObserver())
 
     def game_loop(self):
-        self._table_area.start_new_round()
+        self._table_state.start_new_round()
 
         while self.round() is NORMAL:
-            if self._table_area.is_round_end():
-                self._table_area.start_new_round()
+            if self._table_state.is_round_end:
+                self._table_state = self._table_state.start_new_round()
 
         for board in self._boards:
             board.compute_points_finally()
@@ -77,11 +76,11 @@ class Game(GameInterface):
             tile_idx: int,
             dst: int,
     ) -> bool:
-        tiles: List[Tile] = self._table_area.take(source_id, tile_idx)
+        tiles, self._table_state = self._table_state.take(source_id, tile_idx)
         return self._boards[player_idx].put(dst, tiles)
 
     def start_round(self):
-        self._table_area.start_new_round()
+        self._table_state = self._table_state.start_new_round()
 
     def finish_round(self) -> FinishRoundResult:
         finished = False

@@ -26,7 +26,7 @@ class Board:
 
     def __init__(
             self,
-            used_tiles_manager: UsedTilesManager()
+            used_tiles_manager: UsedTilesManager
     ):
         self._points = Points(0)
         self._pattern_lines: List[PatternLine] = []

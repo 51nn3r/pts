@@ -1,33 +1,26 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
 from typing import List
 
+from azul.bag import Bag
 from azul.tile_source import TileSource
 from azul.simple_types import Tile
 from azul.simple_types import STARTING_PLAYER
 
 
+@dataclass(frozen=True)
 class TableCenter(TileSource):
     _tiles: List[Tile]
 
-    def __init__(self):
-        super().__init__()
-
-    def add(
+    def take(
             self,
-            tiles: List[Tile]
-    ):
-        self._tiles.extend(tiles)
+            idx: int,
+    ) -> (List[Tile], TileSource):
+        tiles, other_tiles = super().take(idx)
 
-    def take(self, idx: int) -> List[Tile]:
-        tiles = super().take(idx)
-
-        if STARTING_PLAYER in self._tiles:
+        if STARTING_PLAYER in other_tiles:
             tiles.append(STARTING_PLAYER)
-            self._tiles.remove(STARTING_PLAYER)
+            other_tiles.remove(STARTING_PLAYER)
 
-        return tiles
-
-    def start_new_round(self) -> None:
-        if self._tiles:
-            raise "can't start new round, some tiles are not used"
-
-        self._tiles.append(STARTING_PLAYER)
+        return tiles, other_tiles
