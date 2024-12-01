@@ -1,11 +1,7 @@
-Authors:
-
-Bukhtoiarov Aleksandr
-Fedir Kovalov
-Malinov Mykhailo
+Author: Bukhtoiarov Aleksandr
 
 
 ===================================
 
 
-Repo url: https://github.com/51nn3r/pts
+https://github.com/51nn3r/pts/tree/pts2
