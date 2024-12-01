@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List
 
-from azul.bag import Bag
 from azul.tile_source import TileSource
 from azul.simple_types import Tile
 from azul.simple_types import STARTING_PLAYER
